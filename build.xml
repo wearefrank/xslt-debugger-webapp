@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TomcatSetup" default="setup-tomcat" basedir=".">
+
+    <property name="download.dir" value="download"/>
+    <property name="tomcat.version" value="9.0.83"/>
+    <property name="tomcat.url"
+              value="https://downloads.apache.org/tomcat/tomcat-9/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip"/>
+    <property name="tomcat.home" value="${download.dir}/apache-tomcat-${tomcat.version}"/>
+    <property name="maven.version" value="3.9.6"/>
+    <property name="maven.url"
+              value="https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip"/>
+    <property name="maven.home" value="${download.dir}/apache-maven-${maven.version}"/>
+    <property name="maven.exec" value="${download.dir}/apache-tomcat-${tomcat.version}"/>
+
+    <property name="webapp.name" value="ibis-ladybug-test-webapp-1.0-SNAPSHOT"/>
+
+    <property name="tomcat.port" value="80"/>
+    <property name="cataline.script" value="${tomcat.home}/bin/catalina.bat"/>
+
+    <target name="download-tomcat">
+        <mkdir dir="${download.dir}"/>
+        <get src="${tomcat.url}" dest="${download.dir}/apache-tomcat-${tomcat.version}.zip"/>
+    </target>
+
+    <target name="extract-tomcat" depends="download-tomcat">
+        <unzip src="${download.dir}/apache-tomcat-${tomcat.version}.zip" dest="${download.dir}"/>
+    </target>
+
+    <target name="setup-tomcat" depends="extract-tomcat">
+        <!-- Add any additional setup steps here if needed -->
+    </target>
+
+    <target name="download-maven">
+        <mkdir dir="${download.dir}"/>
+        <get src="${maven.url}" dest="${download.dir}/apache-maven-${maven.version}.zip"/>
+    </target>
+
+    <target name="extract-maven" depends="download-maven">
+        <unzip src="${download.dir}/apache-maven-${maven.version}.zip" dest="${download.dir}"/>
+    </target>
+
+    <target name="setup-maven" depends="extract-maven">
+        <!-- Add any additional setup steps here if needed -->
+    </target>
+
+    <target name="start-webapp" depends="setup-tomcat,setup-maven">
+        <echo message="Maven Directory: ${maven.home}"/>
+        <exec executable="${maven.home}/bin/mvn.cmd">
+            <arg value="-Dmaven=true"/>
+            <arg value="-Dwebapp.gitignore.skip=true"/>
+            <arg value="-Dwebapp.clean=WEB-INF/classes/**\ WEB-INF/lib/**"/>
+            <arg value="clean"/>
+            <arg value="install"/>
+        </exec>
+
+        <copy todir="${tomcat.home}/webapps/xslt-debugger" preservelastmodified="true">
+            <fileset dir="target/${webapp.name}"/>
+        </copy>
+
+
+        <exec executable="${cataline.script}">
+            <env key="CATALINA_HOME" value="${tomcat.home}"/>
+            <arg value="run"/>
+            <arg value="-Dcatalina.http.port=${tomcat.port}"/>
+        </exec>
+    </target>
+</project>
