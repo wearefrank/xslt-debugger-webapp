@@ -45,15 +45,7 @@
         <!-- Add any additional setup steps here if needed -->
     </target>
 
-    <target name="stop-tomcat">
-        <echo message="Stopping Tomcat..."/>
-        <exec executable="${tomcat.home}/bin/shutdown.bat" outputproperty="exec.output" errorproperty="exec.error">
-            <env key="CATALINA_HOME" value="${tomcat.home}"/>
-            <arg value="-force"/>
-        </exec>
-    </target>
-
-    <target name="start-webapp" depends="stop-tomcat, setup-maven, setup-tomcat">
+    <target name="start-webapp" depends="setup-maven, setup-tomcat">
         <echo message="Maven Directory: ${maven.home}"/>
         <exec executable="${maven.home}/bin/mvn.cmd">
             <arg value="-Dmaven=true"/>
@@ -68,23 +60,24 @@
             <globmapper from="*" to="ROOT.war"/>
         </copy>
 
-        <exec executable="cmd" osfamily="windows" failonerror="true">
-            <arg line="/c ${basedir}/${tomcat.home}/bin/catalina.bat"/>
-            <arg line="stop"/>
-        </exec>
-        <echo message="Updating server.xml to use port ${tomcat.port}"/>
-        <echo file="${tomcat.home}/conf/server.xml" append="true">
-            <![CDATA[
-                    <Connector port="${tomcatPort}" protocol="HTTP/1.1"
-                               connectionTimeout="20000"
-                               redirectPort="8443" />
-                ]]>
-        </echo>
+        <replace file="${tomcat.home}/conf/server.xml" token='port="8080"' value='port="${tomcat.port}"'/>
         <echo message="Starting Tomcat on port ${tomcat.port}"/>
 
         <exec executable="cmd" osfamily="windows" failonerror="true">
             <env key="CATALINA_HOME" value="${tomcat.home}"/>
             <arg line="/c ${basedir}/${tomcat.home}/bin/startup.bat"/>
+        </exec>
+    </target>
+
+    <target name="start" depends="start-webapp">
+        <echo message="Starting webapp..."/>
+    </target>
+
+    <target name="stop">
+        <echo message="Stopping Tomcat..."/>
+        <exec executable="${tomcat.home}/bin/shutdown.bat">
+            <env key="CATALINA_HOME" value="${tomcat.home}"/>
+            <arg value="-force"/>
         </exec>
     </target>
 </project>
