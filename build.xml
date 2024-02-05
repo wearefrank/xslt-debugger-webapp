@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="TomcatSetup" default="setup-tomcat" basedir=".">
+<project name="TomcatSetup" default="start-webapp" basedir=".">
 
     <property name="download.dir" value="download"/>
     <property name="tomcat.version" value="9.0.83"/>
     <property name="tomcat.url"
               value="https://downloads.apache.org/tomcat/tomcat-9/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip"/>
     <property name="tomcat.home" value="${download.dir}/apache-tomcat-${tomcat.version}"/>
+    <property name="tomcat.port" value="80"/>
+
     <property name="maven.version" value="3.9.6"/>
     <property name="maven.url"
               value="https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip"/>
@@ -14,9 +16,6 @@
 
     <property name="webapp.name" value="ibis-ladybug-test-webapp-1.0-SNAPSHOT"/>
 
-    <property name="tomcat.port" value="80"/>
-    <property name="cataline.script" value="${tomcat.home}/bin/catalina.bat"/>
-
     <target name="download-tomcat">
         <mkdir dir="${download.dir}"/>
         <get src="${tomcat.url}" dest="${download.dir}/apache-tomcat-${tomcat.version}.zip"/>
@@ -24,6 +23,9 @@
 
     <target name="extract-tomcat" depends="download-tomcat">
         <unzip src="${download.dir}/apache-tomcat-${tomcat.version}.zip" dest="${download.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${tomcat.home}/webapps" includes="**/*"/>
+        </delete>
     </target>
 
     <target name="setup-tomcat" depends="extract-tomcat">
@@ -43,7 +45,15 @@
         <!-- Add any additional setup steps here if needed -->
     </target>
 
-    <target name="start-webapp" depends="setup-tomcat,setup-maven">
+    <target name="stop-tomcat">
+        <echo message="Stopping Tomcat..."/>
+        <exec executable="${tomcat.home}/bin/shutdown.bat" outputproperty="exec.output" errorproperty="exec.error">
+            <env key="CATALINA_HOME" value="${tomcat.home}"/>
+            <arg value="-force"/>
+        </exec>
+    </target>
+
+    <target name="start-webapp" depends="stop-tomcat, setup-maven, setup-tomcat">
         <echo message="Maven Directory: ${maven.home}"/>
         <exec executable="${maven.home}/bin/mvn.cmd">
             <arg value="-Dmaven=true"/>
@@ -53,15 +63,28 @@
             <arg value="install"/>
         </exec>
 
-        <copy todir="${tomcat.home}/webapps/xslt-debugger" preservelastmodified="true">
-            <fileset dir="target/${webapp.name}"/>
+        <copy file="target/${webapp.name}.war" todir="${tomcat.home}/webapps">
+            <file file="target/${webapp.name}.war"/>
+            <globmapper from="*" to="ROOT.war"/>
         </copy>
 
+        <exec executable="cmd" osfamily="windows" failonerror="true">
+            <arg line="/c ${basedir}/${tomcat.home}/bin/catalina.bat"/>
+            <arg line="stop"/>
+        </exec>
+        <echo message="Updating server.xml to use port ${tomcat.port}"/>
+        <echo file="${tomcat.home}/conf/server.xml" append="true">
+            <![CDATA[
+                    <Connector port="${tomcatPort}" protocol="HTTP/1.1"
+                               connectionTimeout="20000"
+                               redirectPort="8443" />
+                ]]>
+        </echo>
+        <echo message="Starting Tomcat on port ${tomcat.port}"/>
 
-        <exec executable="${cataline.script}">
+        <exec executable="cmd" osfamily="windows" failonerror="true">
             <env key="CATALINA_HOME" value="${tomcat.home}"/>
-            <arg value="run"/>
-            <arg value="-Dcatalina.http.port=${tomcat.port}"/>
+            <arg line="/c ${basedir}/${tomcat.home}/bin/startup.bat"/>
         </exec>
     </target>
 </project>
