@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="TomcatSetup" default="start-webapp" basedir=".">
-
+    <property name="build.dir" value="build"/>
     <property name="download.dir" value="download"/>
     <property name="tomcat.version" value="9.0.83"/>
     <property name="tomcat.url"
               value="https://downloads.apache.org/tomcat/tomcat-9/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip"/>
-    <property name="tomcat.home" value="${download.dir}/apache-tomcat-${tomcat.version}"/>
+    <property name="tomcat.home" value="${build.dir}/apache-tomcat-${tomcat.version}"/>
     <property name="tomcat.port" value="80"/>
 
     <property name="maven.version" value="3.9.6"/>
     <property name="maven.url"
               value="https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip"/>
-    <property name="maven.home" value="${download.dir}/apache-maven-${maven.version}"/>
-    <property name="maven.exec" value="${download.dir}/apache-tomcat-${tomcat.version}"/>
+    <property name="maven.home" value="${build.dir}/apache-maven-${maven.version}"/>
+    <property name="maven.exec" value="${build.dir}/apache-tomcat-${tomcat.version}"/>
 
     <property name="webapp.name" value="ibis-ladybug-test-webapp-1.0-SNAPSHOT"/>
 
@@ -22,14 +22,10 @@
     </target>
 
     <target name="extract-tomcat" depends="download-tomcat">
-        <unzip src="${download.dir}/apache-tomcat-${tomcat.version}.zip" dest="${download.dir}"/>
+        <unzip src="${download.dir}/apache-tomcat-${tomcat.version}.zip" dest="${build.dir}"/>
         <delete includeemptydirs="true">
             <fileset dir="${tomcat.home}/webapps" includes="**/*"/>
         </delete>
-    </target>
-
-    <target name="setup-tomcat" depends="extract-tomcat">
-        <!-- Add any additional setup steps here if needed -->
     </target>
 
     <target name="download-maven">
@@ -38,14 +34,10 @@
     </target>
 
     <target name="extract-maven" depends="download-maven">
-        <unzip src="${download.dir}/apache-maven-${maven.version}.zip" dest="${download.dir}"/>
+        <unzip src="${download.dir}/apache-maven-${maven.version}.zip" dest="${build.dir}"/>
     </target>
 
-    <target name="setup-maven" depends="extract-maven">
-        <!-- Add any additional setup steps here if needed -->
-    </target>
-
-    <target name="start-webapp" depends="setup-maven, setup-tomcat">
+    <target name="start-webapp" depends="extract-maven, extract-tomcat">
         <echo message="Maven Directory: ${maven.home}"/>
         <exec executable="${maven.home}/bin/mvn.cmd">
             <arg value="-Dmaven=true"/>
