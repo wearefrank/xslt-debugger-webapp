@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TomcatSetup" default="start-webapp" basedir=".">
+    <property name="build.dir" value="build"/>
+    <property name="download.dir" value="download"/>
+    <property name="tomcat.version" value="9.0.83"/>
+    <property name="tomcat.url"
+              value="https://downloads.apache.org/tomcat/tomcat-9/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip"/>
+    <property name="tomcat.home" value="${build.dir}/apache-tomcat-${tomcat.version}"/>
+    <property name="tomcat.port" value="80"/>
+
+    <property name="maven.version" value="3.9.6"/>
+    <property name="maven.url"
+              value="https://dlcdn.apache.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip"/>
+    <property name="maven.home" value="${build.dir}/apache-maven-${maven.version}"/>
+    <property name="maven.exec" value="${build.dir}/apache-tomcat-${tomcat.version}"/>
+
+    <property name="webapp.name" value="ibis-ladybug-test-webapp-1.0-SNAPSHOT"/>
+
+    <target name="download-tomcat">
+        <mkdir dir="${download.dir}"/>
+        <get src="${tomcat.url}" dest="${download.dir}/apache-tomcat-${tomcat.version}.zip"/>
+    </target>
+
+    <target name="extract-tomcat" depends="download-tomcat">
+        <unzip src="${download.dir}/apache-tomcat-${tomcat.version}.zip" dest="${build.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${tomcat.home}/webapps" includes="**/*"/>
+        </delete>
+    </target>
+
+    <target name="download-maven">
+        <mkdir dir="${download.dir}"/>
+        <get src="${maven.url}" dest="${download.dir}/apache-maven-${maven.version}.zip"/>
+    </target>
+
+    <target name="extract-maven" depends="download-maven">
+        <unzip src="${download.dir}/apache-maven-${maven.version}.zip" dest="${build.dir}"/>
+    </target>
+
+    <target name="start-webapp" depends="extract-maven, extract-tomcat">
+        <echo message="Maven Directory: ${maven.home}"/>
+        <exec executable="${maven.home}/bin/mvn.cmd">
+            <arg value="-Dmaven=true"/>
+            <arg value="-Dwebapp.gitignore.skip=true"/>
+            <arg value="-Dwebapp.clean=WEB-INF/classes/**\ WEB-INF/lib/**"/>
+            <arg value="clean"/>
+            <arg value="install"/>
+        </exec>
+
+        <copy file="target/${webapp.name}.war" todir="${tomcat.home}/webapps">
+            <file file="target/${webapp.name}.war"/>
+            <globmapper from="*" to="ROOT.war"/>
+        </copy>
+
+        <replace file="${tomcat.home}/conf/server.xml" token='port="8080"' value='port="${tomcat.port}"'/>
+        <echo message="Starting Tomcat on port ${tomcat.port}"/>
+
+        <exec executable="cmd" osfamily="windows" failonerror="true">
+            <env key="CATALINA_HOME" value="${tomcat.home}"/>
+            <arg line="/c ${basedir}/${tomcat.home}/bin/startup.bat"/>
+        </exec>
+    </target>
+
+    <target name="start" depends="start-webapp">
+        <echo message="Starting webapp..."/>
+    </target>
+
+    <target name="stop">
+        <echo message="Stopping Tomcat..."/>
+        <exec executable="${tomcat.home}/bin/shutdown.bat">
+            <env key="CATALINA_HOME" value="${tomcat.home}"/>
+            <arg value="-force"/>
+        </exec>
+    </target>
+</project>
