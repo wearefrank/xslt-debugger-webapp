@@ -5,15 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import lombok.Setter;
-import nl.nn.testtool.Checkpoint;
-import nl.nn.testtool.Report;
-import nl.nn.testtool.Rerunner;
-import nl.nn.testtool.SecurityContext;
-import nl.nn.testtool.TestTool;
+import nl.nn.testtool.*;
 import nl.nn.testtool.run.ReportRunner;
 
 public class SimpleRerunner implements Rerunner {
-	@Setter TestTool testTool;
+	@Setter
+	TestTool testTool;
 
 	@Override
 	public String rerun(String correlationId, Report originalReport,
