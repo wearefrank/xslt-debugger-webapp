@@ -7,7 +7,3 @@ RUN mvn clean install
 FROM tomcat:9-jre11 AS runtime
 
 COPY --from=build ./target/*.war $CATALINA_HOME/webapps/ROOT.war
-
-EXPOSE 80
-
-CMD ["catalina.sh", "run"]
