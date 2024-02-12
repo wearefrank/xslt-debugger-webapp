@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  xslt-debugger:
+    image: private.docker.nexus.frankframework.org/xslt-debugger:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:8080"
