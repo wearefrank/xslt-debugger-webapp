@@ -2,7 +2,7 @@
 <project name="TomcatSetup" default="start-webapp" basedir=".">
     <property name="build.dir" value="build"/>
     <property name="download.dir" value="download"/>
-    <property name="tomcat.version" value="9.0.83"/>
+    <property name="tomcat.version" value="9.0.85"/>
     <property name="tomcat.url"
               value="https://downloads.apache.org/tomcat/tomcat-9/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip"/>
     <property name="tomcat.home" value="${build.dir}/apache-tomcat-${tomcat.version}"/>
