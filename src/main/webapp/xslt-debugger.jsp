@@ -16,6 +16,10 @@
     String xmlInput = request.getParameter("xmlInput");
     String xslInput = request.getParameter("xslInput");
     String version = request.getParameter("xsltVersion");
+    if(Objects.equals(xmlInput, "") || Objects.equals(xslInput, "")){
+        response.sendRedirect("/ladybug");
+        return;
+    }
     try {
         XSLTReporterSetup setup = new XSLTReporterSetup(xmlInput, xslInput, Integer.parseInt(version));
         setup.transform();

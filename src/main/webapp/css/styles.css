@@ -133,3 +133,8 @@ textarea::placeholder {
     transform: skew(-15deg);
     text-align: center;
 }
+
+.notice-ladybug {
+    letter-spacing: .1rem;
+    font-size: .90rem;
+}

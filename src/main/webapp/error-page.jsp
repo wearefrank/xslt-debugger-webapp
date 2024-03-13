@@ -31,8 +31,8 @@
         Woops! <br>Something went wrong :(
     </h1>
     <h2 class="error-subtitle">
-        The transformer could not handle your XSLT. <br>
-        Check console for trace. Click <a href="index.html">here</a> to return.
+        There was something wrong with the XSLT you provided. <br>
+        Click <a href="index.html">here</a> to return.
     </h2>
     </div>
 </div>
