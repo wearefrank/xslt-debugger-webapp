@@ -1,3 +1,29 @@
+<%@ page import="nl.nn.testtool.test.webapp.XsltReportFromFile" %>
+<%@ page import="java.net.URL" %>
+<%@ page import="java.io.File" %>
+<%@ page import="nl.nn.testtool.TestTool" %>
+<%@ page import="org.springframework.web.context.WebApplicationContext" %>
+<%@ page import="org.springframework.web.context.support.WebApplicationContextUtils" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
+
+<%
+    ServletContext servletContext = request.getSession().getServletContext();
+    WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+    TestTool testTool = (TestTool)webApplicationContext.getBean("testTool");
+    if(request.getParameter("xsltExample1") != null){
+        ClassLoader classLoader = servletContext.getClassLoader();
+        URL url = classLoader.getResource("xsltExample1.xml");
+        assert url != null;
+        File xmlFile = new File(url.getFile());
+        url = classLoader.getResource("xsltExample1.xsl");
+        assert url != null;
+        File xslFile = new File(url.getFile());
+        XsltReportFromFile xsltReportFromFile = new XsltReportFromFile(testTool, xmlFile, xslFile, 1);
+        xsltReportFromFile.createXsltReport("Xalan Example Report 1");
+        response.sendRedirect("/ladybug");
+    }
+%>
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -40,6 +66,9 @@
                 <br/>
             </div>
             <input class="a-button" type="submit" value="To Ladybug!">
+            <a href="index.jsp?xsltExample1">
+                <input class="a-button" type="button" value="XSLT Example 1">
+            </a>
         </div>
     </form>
 
