@@ -14,24 +14,6 @@
     transform: translate(-50%, -50%);
 }
 
-.cookies-banner button {
-    text-decoration: none;
-    background: #222;
-    color: #fff;
-    border: 1px solid #000;
-    cursor: pointer;
-    padding: 10px 15px;
-    margin: 2px 0;
-    font-size: 13px;
-    font-weight: 700;
-    transition: background 0.07s, color 0.07s, border-color 0.07s;
-}
-
-.cookies-banner button:hover {
-    background: #fdc300;
-    color: #222;
-}
-
 .hidden {
     display: none;
 }
@@ -47,10 +29,22 @@
 }
 
 #agreement-button {
+    text-decoration: none;
+    background: #222;
+    color: #fff;
+    border: 1px solid #000;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin: 2px 0;
+    font-size: 13px;
+    font-weight: 700;
+    transition: background 0.07s, color 0.07s, border-color 0.07s;
     top: 50%;
     left: 50%;
+    border-radius: 5px;
 }
 
-#agreement-button {
-    border-radius: 5px;
+#agreement-button:hover {
+    background: #fdc300;
+    color: #222;
 }

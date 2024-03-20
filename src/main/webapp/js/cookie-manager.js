@@ -1,7 +1,5 @@
 /**
  * A simple cookie manager script.
- *
- * @author Mark van de Vorst
  * */
 const getCookie = (name) => {
     const parts = document.cookie.split(name + "=");

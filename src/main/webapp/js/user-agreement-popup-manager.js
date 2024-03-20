@@ -1,10 +1,7 @@
 /**
  * This script manages the popup window when a user has not accepted the terms of use yet.
  * It will grab the popup banner element and overlay element
- *
- * @author Mark van de Vorst
  * */
-
 const $cookiesBanner = document.querySelector(".cookies-banner");
 const $cookiesBannerButton = $cookiesBanner.querySelector("button");
 const cookieName = "cookiesBanner";
