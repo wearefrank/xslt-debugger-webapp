@@ -14,11 +14,11 @@
     transform: translate(-50%, -50%);
 }
 
-.hidden {
+.cookies-banner--hidden {
     display: none;
 }
 
-#agreement-overlay {
+.agreement-overlay {
     position: fixed;
     top: 0;
     left:0;
@@ -28,7 +28,7 @@
     display: block;
 }
 
-#agreement-button {
+.agreement-button {
     text-decoration: none;
     background: #222;
     color: #fff;
@@ -44,7 +44,7 @@
     border-radius: 5px;
 }
 
-#agreement-button:hover {
+.agreement-button:hover {
     background: #fdc300;
     color: #222;
 }

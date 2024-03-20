@@ -7,8 +7,5 @@ const getCookie = (name) => {
 };
 
 const setCookie = function (name, value) {
-    document.cookie =
-        name +
-        "=" +
-        value;
+    document.cookie = `${name}=${value}`;
 };
