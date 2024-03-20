@@ -60,8 +60,10 @@
 <body>
 <div id="agreement-overlay"></div>
 <div class="cookies-banner hidden">
-    <h3 class="cookies-banner-content">By using the XSLT-Debugger, you agree that you accept the condition that all data
-        used in the XML and XSL will be shared with others due to the nature of our storage system.</h3>
+    <h3 class="cookies-banner-content">
+      By using the XSLT-Debugger, you agree that you accept the condition that all data used 
+      in the XML and XSL will be shared with others due to the nature of our storage system.
+    </h3>
     <button id="agreement-button">Accept</button>
 </div>
 <script src="js/user-agreement-popup-manager.js"></script>
