@@ -1,0 +1,50 @@
+.cookies-banner {
+    position: absolute;
+    background: #eeeeee;
+    color: #070707;
+    padding: 6px;
+    font-size: 13px;
+    text-align: left;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: fit-content;
+    border-radius: 5px;
+    border: 5px solid #fdc300;
+    transform: translate(-50%, -50%);
+}
+
+.cookies-banner--hidden {
+    display: none;
+}
+
+.agreement-overlay {
+    position: fixed;
+    top: 0;
+    left:0;
+    width:100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: block;
+}
+
+.agreement-button {
+    text-decoration: none;
+    background: #222;
+    color: #fff;
+    border: 1px solid #000;
+    cursor: pointer;
+    padding: 10px 15px;
+    margin: 2px 0;
+    font-size: 13px;
+    font-weight: 700;
+    transition: background 0.07s, color 0.07s, border-color 0.07s;
+    top: 50%;
+    left: 50%;
+    border-radius: 5px;
+}
+
+.agreement-button:hover {
+    background: #fdc300;
+    color: #222;
+}

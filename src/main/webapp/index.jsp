@@ -52,9 +52,21 @@
 %>
 <html>
 <head>
+    <title>XSLT Debugger</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" href="css/cookie-banner.css"/>
+    <script src="js/cookie-manager.js"></script>
 </head>
 <body>
+<div class="agreement-overlay"></div>
+<div class="cookies-banner cookies-banner--hidden">
+    <h3 class="cookies-banner-content">
+      By using the XSLT-Debugger, you agree that you accept the condition that all data used 
+      in the XML and XSL will be shared with others due to the nature of our storage system.
+    </h3>
+    <button class="agreement-button">Accept</button>
+</div>
+<script src="js/user-agreement-popup-manager.js"></script>
 <div class="header">
     <h1 class="title-name">XSLT Debugger</h1>
     <div class="vertical-line"></div>
@@ -79,7 +91,6 @@
               fill="#1e1e1e"></path>
     </svg>
 </div>
-
 <form method="post" action="xslt-debugger.jsp">
     <div class="form-container">
         <div class="xslt-input">
@@ -105,11 +116,5 @@
         <input class="a-button float-left" type="submit" value="To Ladybug!">
     </div>
 </form>
-
-<div class="footer">
-    <h1 class="footer-title">Disclaimer</h1>
-    <p class="footer-content">Please be advised that the data you provide while using this program may be shared with
-        others due to the nature of our backend storage system.</p>
-</div>
 </body>
 </html>
