@@ -107,9 +107,9 @@
         <div class="xslt-version">
             <label for="xsltVersion">XSLT Version: </label>
             <select id="xsltVersion" name="xsltVersion" rows="5" cols="50">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
+                <option>1 - XALAN</option>
+                <option>2 - SAXON</option>
+                <option>3 - SAXON</option>
             </select>
             <br/>
         </div>
