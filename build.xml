@@ -2,7 +2,7 @@
 <project name="TomcatSetup" default="start-webapp" basedir=".">
     <property name="build.dir" value="build"/>
     <property name="download.dir" value="download"/>
-    <property name="tomcat.version" value="9.0.85"/>
+    <property name="tomcat.version" value="9.0.89"/>
     <property name="tomcat.url"
               value="https://downloads.apache.org/tomcat/tomcat-9/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.zip"/>
     <property name="tomcat.home" value="${build.dir}/apache-tomcat-${tomcat.version}"/>
@@ -14,7 +14,7 @@
     <property name="maven.home" value="${build.dir}/apache-maven-${maven.version}"/>
     <property name="maven.exec" value="${build.dir}/apache-tomcat-${tomcat.version}"/>
 
-    <property name="webapp.name" value="ibis-ladybug-test-webapp-1.0-SNAPSHOT"/>
+    <property name="webapp.name" value="xslt-debugger-webapp-1.0-SNAPSHOT"/>
 
     <target name="download-tomcat">
         <mkdir dir="${download.dir}"/>
