@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.ibissource</groupId>
-    <artifactId>ibis-ladybug-test-webapp</artifactId>
+    <artifactId>xslt-debugger-webapp</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -12,8 +12,8 @@
         <maven.compiler.release>11</maven.compiler.release>
     </properties>
 
-    <name>Ladybug Test Tool Test Webapp</name>
-    <description>Simple vanilla webapp to test Ladybug</description>
+    <name>XSLT Debugger Webapp</name>
+    <description>Simple vanilla webapp to test XSLT-Debugger</description>
     <packaging>war</packaging>
 
     <dependencies>
@@ -30,18 +30,8 @@
         </dependency>
         <dependency>
             <groupId>xalan</groupId>
-            <artifactId>xalan</artifactId>
-            <version>2.7.3</version>
-        </dependency>
-        <dependency>
-            <groupId>xalan</groupId>
             <artifactId>serializer</artifactId>
             <version>2.7.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wearefrank</groupId>
-            <artifactId>Saxon-HE</artifactId>
-            <version>10.8.1</version>
         </dependency>
         <dependency>
             <groupId>org.ibissource</groupId>
@@ -124,6 +114,7 @@
     </profiles>
 
     <build>
+        <defaultGoal>clean install</defaultGoal>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
